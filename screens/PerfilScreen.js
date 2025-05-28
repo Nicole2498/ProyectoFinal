@@ -1,84 +1,125 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useContext } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+} from 'react-native';
+import { UserContext } from '../context/UserContext';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function PerfilScreen({ navigation, route }) {
-  const { datosUsuario } = route.params || {};
+export default function PerfilScreen({ navigation }) {
+  const { datosUsuario } = useContext(UserContext);
+
+  const {
+    tipoRostro,
+    colorOjos,
+    colorCabello,
+    tonoPiel,
+    subtonoPiel,
+    contraste,
+  } = datosUsuario || {};
+
+  const CirculoColor = ({ color }) => (
+    <View style={[styles.circulo, { backgroundColor: color || '#ccc' }]} />
+  );
 
   return (
-    <View style={styles.screen}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backButtonText}>← Volver</Text>
-      </TouchableOpacity>
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+      <Text style={styles.titulo}>Perfil</Text>
 
-      <View style={styles.screenCentered}>
-        <Text style={styles.screenText}>Perfil</Text>
+      <Image
+        source={require('../assets/images/perfil.png')}
+        style={styles.imagen}
+        resizeMode="contain"
+      />
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Tipo de rostro:</Text>
+        <Text style={styles.valor}>{tipoRostro || 'No especificado'}</Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.infoContainer}>
-        {datosUsuario ? (
-          Object.entries(datosUsuario).map(([clave, valor]) => (
-            <View key={clave} style={styles.item}>
-              <Text style={styles.label}>{clave}:</Text>
-              <Text style={styles.value}>{valor}</Text>
-            </View>
-          ))
-        ) : (
-          <Text style={styles.noData}>No hay datos disponibles.</Text>
-        )}
-      </ScrollView>
-    </View>
+      <View style={styles.card}>
+        <Text style={styles.label}>Color de ojos:</Text>
+        <CirculoColor color={colorOjos} />
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Color de cabello:</Text>
+        <CirculoColor color={colorCabello} />
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Tono de piel:</Text>
+        <CirculoColor color={tonoPiel} />
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Subtono de piel:</Text>
+        <Text style={styles.valor}>{subtonoPiel || 'No especificado'}</Text>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Contraste:</Text>
+        <Text style={styles.valor}>{contraste || 'No especificado'}</Text>
+      </View>
+    </ScrollView>
+    
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#fff0f6',
+  container: {
+    padding: 25,
+    backgroundColor: '#fef4f9',
+    flexGrow: 1,
+    justifyContent: 'center',
   },
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    backgroundColor: '#ffe3ec',
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 12,
-    zIndex: 10,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: '#ff4081',
-    fontWeight: '600',
-  },
-  screenCentered: {
-    marginTop: 100,
-    alignItems: 'center',
-  },
-  screenText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ff7eb9',
+  titulo: {
+    fontSize: 20,
+    fontWeight: '900',
     marginBottom: 20,
+    textAlign: 'center',
+    color: '#ff4081',
   },
-  infoContainer: {
-    padding: 20,
+  imagen: {
+    width: '100%',
+    height: 180,
+    marginBottom: 30,
+    borderRadius: 12,
   },
-  item: {
-    marginBottom: 12,
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: '#ffb7d1',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
   },
   label: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#555',
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#d6336c',
   },
-  value: {
-    fontSize: 16,
-    color: '#333',
+  valor: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#4a4a4a',
+    maxWidth: 130,
+    textAlign: 'right',
   },
-  noData: {
-    textAlign: 'center',
-    color: '#999',
-    marginTop: 50,
-    fontSize: 16,
+  circulo: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#d6336c',
   },
 });

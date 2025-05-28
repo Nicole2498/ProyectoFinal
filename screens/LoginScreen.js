@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={['#FFF6F9', '#FFF1F5', '#FFF4E6']}  // degradado con melón clarito
+      colors={['#FFF6F9', '#FFF1F5', '#FFF4E6']}  
       style={styles.container}
     >
       <View style={styles.appNameContainer}>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   appName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#D81B60',  // fucsia lindo
+    color: '#D81B60',  
     fontFamily: 'sans-serif',
   },
   stars: {

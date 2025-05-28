@@ -1,28 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { UserContext } from '../../context/UserContext'; // Ajusta la ruta según estructura
 
 const tonosPiel = [
-  '#FBE8EB', // Muy claro
-  '#F7DAD9',
-  '#F1C6A9',
-  '#E1B07E',
-  '#C68642', // Medio
-  '#8D5524', // Moreno
-  '#6B4423',
-  '#4B3621', // Muy oscuro
+  '#FBE8EB', '#F7DAD9', '#F1C6A9', '#DEA789',
+  '#E1B07E', '#C68642', '#B88A72', '#785A4A',
+  '#8D5524', '#6B4423', '#66513D', '#4B3621',
+  '#4F4336', '#261D15',
 ];
 
-export default function TonoPielScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
+export default function TonoPielScreen({ navigation }) {
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
   const [tonoSeleccionado, setTonoSeleccionado] = useState(datosUsuario.tonoPiel || null);
 
   const handleSiguiente = () => {
     if (tonoSeleccionado) {
-      const datosActualizados = {
-        ...datosUsuario,
-        tonoPiel: tonoSeleccionado,
-      };
-      navigation.navigate('SubtonoPiel', { datosUsuario: datosActualizados });
+      setDatosUsuario({ ...datosUsuario, tonoPiel: tonoSeleccionado });
+      navigation.navigate('SubtonoPiel'); // Sin params
     }
   };
 

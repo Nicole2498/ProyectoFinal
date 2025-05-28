@@ -10,14 +10,14 @@ import {
   Platform,
 } from 'react-native';
 
-const COHERE_API_KEY = 'YxxRWJQFysUwZHF9a2NvBkBKD8TNFJ4z8tL7e5dc'; // Reemplaza por tu key
+const COHERE_API_KEY = 'YxxRWJQFysUwZHF9a2NvBkBKD8TNFJ4z8tL7e5dc'; // KEY Cohere
 
-export default function ChatScreen({ navigation }) {  // <-- recibe navigation
+export default function ChatScreen({ navigation }) {  
   const [mensaje, setMensaje] = useState('');
   const [historial, setHistorial] = useState([
     {
       role: "CHATBOT",
-      message: "Eres una asesora de moda dulce, amigable y profesional. Da consejos con emojis, en tono casual y encantador.",
+      message: "Eres una asesora de moda e imagen dulce, amigable y profesional. Da consejos con emojis, en tono casual pero profesional y encantadora.",
     },
   ]);
   const [cargando, setCargando] = useState(false);
@@ -105,7 +105,7 @@ export default function ChatScreen({ navigation }) {  // <-- recibe navigation
 
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Pregúntame sobre moda, colores, peinados..."
+          placeholder="Hola!! soy Rachel, tu asesora de imagen personal, dime en qué te puedo ayudar..."
           value={mensaje}
           onChangeText={setMensaje}
           style={styles.input}

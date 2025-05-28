@@ -41,7 +41,8 @@
           "cameraPermission": "Este permiso es para tomar fotos con la cámara"
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      "expo-font"
     ]
   }
 }

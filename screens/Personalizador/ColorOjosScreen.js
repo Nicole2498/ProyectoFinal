@@ -1,23 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { UserContext } from '../../context/UserContext'; 
 
 const coloresOjos = [
-  '#6CA0DC', '#8FD694', '#A97C50', '#4B3621',
-  '#1C1C1C', '#D8A45C', '#30D5C8', '#654321',
+  '#1396A6', '#2E4C6E', '#6C7191', '#9B9DAA',
+  '#BCB587', '#7A7E65', '#6A6045', '#5E941C',
+  '#948418', '#524124', '#7F3E14', '#120E08'
 ];
 
-export default function ColorOjosScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
+export default function ColorOjosScreen({ navigation }) {
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
   const [colorSeleccionado, setColorSeleccionado] = useState(datosUsuario.colorOjos || null);
 
   const handleSiguiente = () => {
     if (colorSeleccionado) {
-      navigation.navigate('ColorCabello', {
-        datosUsuario: {
-          ...datosUsuario,
-          colorOjos: colorSeleccionado,
-        },
-      });
+      setDatosUsuario({ ...datosUsuario, colorOjos: colorSeleccionado });
+      navigation.navigate('ColorCabello'); // sin params
     }
   };
 
@@ -59,6 +57,8 @@ export default function ColorOjosScreen({ navigation, route }) {
   );
 }
 
+
+
 const CIRCLE_SIZE = 60;
 
 const styles = StyleSheet.create({
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 50,
+    top: 70,
     left: 20,
     backgroundColor: '#ffe3ec',
     paddingVertical: 6,
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center', // centra verticalmente
-    alignItems: 'center',     // centra horizontalmente
+    justifyContent: 'center', 
+    alignItems: 'center',     
   },
   title: { 
     fontSize: 22, 

@@ -37,14 +37,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20, // centrado visual
+    paddingHorizontal: 20, 
   },
   logo: {
     fontSize: 34,
     fontWeight: '300',
     color: '#d81b60',
     textAlign: 'center',
-    letterSpacing: 1.5, // menos interletrado
+    letterSpacing: 1.5, 
     fontFamily: 'sans-serif-light',
   },
 });

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { UserContext } from '../../context/UserContext'; // ajusta el path si es necesario
 
-export default function ConfirmarRostroScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
+export default function ConfirmarRostroScreen({ navigation }) {
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
+
   const tipoRostro = datosUsuario.tipoRostro || 'Ovalado';
 
   return (
@@ -13,17 +15,13 @@ export default function ConfirmarRostroScreen({ navigation, route }) {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() =>
-            navigation.navigate('ColorOjos', { datosUsuario })
-          }
+          onPress={() => navigation.navigate('ColorOjos')}
         >
           <Text style={styles.buttonText}>Sí</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.secondaryButton]}
-          onPress={() =>
-            navigation.navigate('CambiarRostro', { datosUsuario })
-          }
+          onPress={() => navigation.navigate('CambiarRostro')}
         >
           <Text style={styles.buttonText}>Cambiar</Text>
         </TouchableOpacity>
@@ -39,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     padding: 20,
     paddingTop: 100,
-    backgroundColor: '#fff0f6', // fondo suave rosa pastel
+    backgroundColor: '#fff0f6',
   },
   title: { 
     fontSize: 24, 

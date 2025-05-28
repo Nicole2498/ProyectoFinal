@@ -142,7 +142,7 @@ export default function FaceCaptureScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* La imagen NO se muestra en pantalla, así que esta parte se elimina */}
+      {/* La imagen no se muestra en pantalla, pendiente */}
 
       {uploading ? (
         <ActivityIndicator size="large" color="#fff" style={{ marginTop: 30 }} />
@@ -201,10 +201,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   circleButtonCamera: {
-    backgroundColor: '#F06292', // rosa melón sólido
+    backgroundColor: '#F06292', 
   },
   circleButtonGallery: {
-    backgroundColor: '#FFAB91', // melón sólido
+    backgroundColor: '#FFAB91', 
   },
   uploadButtonWrapper: {
     width: '100%',

@@ -1,6 +1,6 @@
-// screens/Personalizador/SeleccionarRostroScreen.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { UserContext } from '../../context/UserContext'; // ajusta la ruta
 
 const tiposDeRostro = [
   'Ovalado',
@@ -14,11 +14,14 @@ const tiposDeRostro = [
 ];
 
 export default function SeleccionarRostroScreen({ navigation }) {
-  const [seleccionado, setSeleccionado] = useState(null);
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
+  const [seleccionado, setSeleccionado] = useState(datosUsuario.tipoRostro || null);
 
   const handleSiguiente = () => {
     if (seleccionado) {
-      navigation.navigate('ColorOjos', { tipoRostro: seleccionado });
+      // Actualizar el contexto global
+      setDatosUsuario({ ...datosUsuario, tipoRostro: seleccionado });
+      navigation.navigate('ColorOjos'); // sin params
     }
   };
 
@@ -63,16 +66,17 @@ export default function SeleccionarRostroScreen({ navigation }) {
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
+  container: { flex: 1, padding: 40, backgroundColor: '#fff' },
+  title: { fontSize: 24, fontWeight: 'bold', marginTop: 60 ,marginBottom: 30, textAlign: 'center' },
   list: { justifyContent: 'center' },
   item: {
     flex: 1,
     margin: 8,
-    paddingVertical: 20,
+    paddingVertical:30,
     backgroundColor: '#eee',
-    borderRadius: 10,
+    borderRadius: 50,
     alignItems: 'center',
   },
   itemSeleccionado: {

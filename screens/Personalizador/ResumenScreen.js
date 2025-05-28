@@ -1,37 +1,31 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { UserContext } from '../../context/UserContext'; 
+ 
+const colorMapOjos = [
+  '#1396A6', '#2E4C6E', '#6C7191', '#9B9DAA',
+  '#BCB587', '#7A7E65', '#6A6045', '#5E941C',
+  '#948418', '#524124', '#7F3E14', '#2E130C', 
+];
 
-const colorMapOjos = {
-  Azul: '#3b82f6',
-  Verde: '#22c55e',
-  'Cafe claro': '#c19a6b',
-  'Cafe oscuro': '#5c4033',
-  Negro: '#000000',
-  Miel: '#d2996e',
-  Turqueza: '#40e0d0',
-};
+const colorMapCabello = [
+  '#000000', '#4B3621', '#A97C50', '#D2B48C', 
+  '#D8A45C', '#FFF5B7', '#808080', '#C0C0C0',
+  '#A52A2A', '#FF6347', '#FFD700', '#37D617',
+  '#8A2BE2', '#DFB6ED', '#ED1E9B', '#F5A9B8', 
+  '#3214D6', '#1E99D6', '#30D5C8', '#5F9EA0'
+];
 
-const colorMapCabello = {
-  Negro: '#000000',
-  Castaño: '#654321',
-  Rubio: '#f3e5ab',
-  Rojo: '#b22222',
-  Gris: '#b0b0b0',
-  Azul: '#0000ff',
-  Verde: '#008000',
-  Rosa: '#ff69b4',
-};
-
-const colorMapPiel = {
-  Claro: '#f7e7ce',
-  Medio: '#c68642',
-  Oscuro: '#603813',
-};
+const colorMapPiel = [
+  '#FBE8EB', '#F7DAD9', '#F1C6A9', '#DEA789', '#E1B07E', '#C68642',
+  '#B88A72', '#785A4A', '#8D5524', '#6B4423', '#66513D', '#4B3621',
+  '#4F4336', '#261D15',
+];
 
 const colorMapSubtono = {
-  Cálido: '#ffb347',
-  Frío: '#89cff0',
-  Neutro: '#d3d3d3',
+  Cálido: '#FFA500',
+  Frío: '#4A90E2',
+  Neutro: '#4CAF50',
 };
 
 const colorMapContraste = {
@@ -40,8 +34,8 @@ const colorMapContraste = {
   Alto: '#2d3748',
 };
 
-export default function ResumenScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
+export default function ResumenScreen({ navigation }) {
+  const { datosUsuario } = useContext(UserContext);
 
   const {
     tipoRostro,
@@ -50,7 +44,7 @@ export default function ResumenScreen({ navigation, route }) {
     tonoPiel,
     subtonoPiel,
     contraste,
-  } = datosUsuario;
+  } = datosUsuario || {};
 
   const CirculoColor = ({ color }) => (
     <View style={[styles.circulo, { backgroundColor: color }]} />
@@ -67,31 +61,26 @@ export default function ResumenScreen({ navigation, route }) {
 
       <View style={styles.fila}>
         <Text style={styles.label}>Color de ojos:</Text>
-        <CirculoColor color={colorMapOjos[colorOjos] || '#ccc'} />
-        <Text style={styles.valorColor}>{colorOjos || 'No especificado'}</Text>
+        <CirculoColor color={colorOjos || '#ccc'} />
       </View>
 
       <View style={styles.fila}>
         <Text style={styles.label}>Color de cabello:</Text>
-        <CirculoColor color={colorMapCabello[colorCabello] || '#ccc'} />
-        <Text style={styles.valorColor}>{colorCabello || 'No especificado'}</Text>
+        <CirculoColor color={colorCabello || '#ccc'} />
       </View>
 
       <View style={styles.fila}>
         <Text style={styles.label}>Tono de piel:</Text>
-        <CirculoColor color={colorMapPiel[tonoPiel] || '#ccc'} />
-        <Text style={styles.valorColor}>{tonoPiel || 'No especificado'}</Text>
+        <CirculoColor color={tonoPiel || '#ccc'} />
       </View>
 
       <View style={styles.fila}>
         <Text style={styles.label}>Subtono de piel:</Text>
-        <CirculoColor color={colorMapSubtono[subtonoPiel] || '#ccc'} />
         <Text style={styles.valorColor}>{subtonoPiel || 'No especificado'}</Text>
       </View>
 
       <View style={styles.fila}>
         <Text style={styles.label}>Contraste:</Text>
-        <CirculoColor color={colorMapContraste[contraste] || '#ccc'} />
         <Text style={styles.valorColor}>{contraste || 'No especificado'}</Text>
       </View>
 
@@ -100,7 +89,7 @@ export default function ResumenScreen({ navigation, route }) {
         onPress={() => navigation.navigate('Home')}
         activeOpacity={0.85}
       >
-        <Text style={styles.botonTexto}>Terminar y volver al inicio</Text>
+        <Text style={styles.botonTexto}>Guardar datos</Text>
       </TouchableOpacity>
     </ScrollView>
   );

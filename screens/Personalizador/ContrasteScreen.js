@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,23 +7,20 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
+import { UserContext } from '../../context/UserContext'; // ajusta la ruta según tu estructura
 
-export default function ContrasteScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
-  const [contraste, setContraste] = useState(datosUsuario.contraste || null);
+export default function ContrasteScreen({ navigation }) {
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
+  const [contrasteSeleccionado, setContrasteSeleccionado] = useState(datosUsuario.contraste || null);
 
   const handleSeleccion = (nivel) => {
-    setContraste(nivel);
+    setContrasteSeleccionado(nivel);
   };
 
   const handleSiguiente = () => {
-    if (contraste) {
-      navigation.navigate('Resumen', {
-        datosUsuario: {
-          ...datosUsuario,
-          contraste,
-        },
-      });
+    if (contrasteSeleccionado) {
+      setDatosUsuario({ ...datosUsuario, contraste: contrasteSeleccionado });
+      navigation.navigate('Resumen');
     }
   };
 
@@ -42,11 +39,11 @@ export default function ContrasteScreen({ navigation, route }) {
         <View style={styles.guiaContainer}>
           <Text style={styles.guiaTitle}>Guía rápida:</Text>
           <View style={styles.separator} />
-          <Text style={styles.guiaText}>• Bajo: tonos similares (piel clara + cabello claro).</Text>
+          <Text style={styles.guiaText}>• Bajo: tonos similares de piel y cabello.</Text>
           <View style={styles.separator} />
-          <Text style={styles.guiaText}>• Medio: algo de diferencia (piel clara + cabello castaño).</Text>
+          <Text style={styles.guiaText}>• Medio: algo de diferencia entre piel y cabello.</Text>
           <View style={styles.separator} />
-          <Text style={styles.guiaText}>• Alto: gran diferencia (piel clara + cabello oscuro).</Text>
+          <Text style={styles.guiaText}>• Alto: gran diferencia de piel y cabello.</Text>
         </View>
 
         <View style={styles.opcionesContainer}>
@@ -55,13 +52,13 @@ export default function ContrasteScreen({ navigation, route }) {
               key={nivel}
               style={({ pressed }) => [
                 styles.opcion,
-                contraste === nivel && styles.opcionSeleccionada,
+                contrasteSeleccionado === nivel && styles.opcionSeleccionada,
                 pressed && styles.opcionPressed,
               ]}
               onPress={() => handleSeleccion(nivel)}
               android_ripple={{ color: '#ff7eb9' }}
             >
-              <Text style={[styles.opcionTexto, contraste === nivel && styles.opcionTextoSeleccionado]}>
+              <Text style={[styles.opcionTexto, contrasteSeleccionado === nivel && styles.opcionTextoSeleccionado]}>
                 {nivel}
               </Text>
             </Pressable>
@@ -69,9 +66,9 @@ export default function ContrasteScreen({ navigation, route }) {
         </View>
 
         <TouchableOpacity
-          style={[styles.button, !contraste && styles.buttonDisabled]}
+          style={[styles.button, !contrasteSeleccionado && styles.buttonDisabled]}
           onPress={handleSiguiente}
-          disabled={!contraste}
+          disabled={!contrasteSeleccionado}
           activeOpacity={0.85}
         >
           <Text style={styles.buttonText}>Siguiente</Text>
@@ -132,7 +129,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   guiaContainer: {
-    width: '100%',
+    width: '90%',
     backgroundColor: '#fff4f9',
     paddingVertical: 18,
     paddingHorizontal: 15,
@@ -166,7 +163,7 @@ const styles = StyleSheet.create({
   opcionesContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 18,
+    gap: 5,
     marginBottom: 50,
   },
   opcion: {

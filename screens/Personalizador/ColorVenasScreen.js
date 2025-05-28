@@ -1,17 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-
-const coloresPastel = {
-  verde: '#CDE7B0',
-  azul: '#A9CFF7',
-  ambos: '#C4C6E7',
-};
-
-const coloresFuertes = {
-  verde: '#88c070',
-  azul: '#5a9bd4',
-  ambos: '#6a6edc',
-};
+import { UserContext } from '../../context/UserContext'; 
 
 const coloresBotonPastel = {
   Cálido: '#FFD8A8',
@@ -26,7 +15,7 @@ const coloresBotonFuerte = {
 };
 
 export default function ColorVenasScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
   const [venas, setVenas] = useState(datosUsuario.colorVenas || null);
   const [subtono, setSubtono] = useState(datosUsuario.subtonoPiel || null);
 
@@ -49,13 +38,8 @@ export default function ColorVenasScreen({ navigation, route }) {
 
   const handleSiguiente = () => {
     if (subtono) {
-      navigation.navigate('Contraste', {
-        datosUsuario: {
-          ...datosUsuario,
-          colorVenas: venas,
-          subtonoPiel: subtono,
-        },
-      });
+      setDatosUsuario({ ...datosUsuario, subtonoPiel: subtono });
+      navigation.navigate('Contraste');
     }
   };
 
@@ -70,24 +54,75 @@ export default function ColorVenasScreen({ navigation, route }) {
         <Text style={styles.subtitle}>(Observa tus muñecas con luz natural)</Text>
 
         <View style={styles.grid}>
-          {Object.keys(coloresPastel).map((key) => {
-            const seleccionado = venas === key;
-            return (
-              <TouchableOpacity
-                key={key}
+          <TouchableOpacity
+            style={styles.circleGroup}
+            onPress={() => handleSeleccion('azul')}
+            activeOpacity={0.8}
+          >
+            <View style={[
+              styles.colorCircle,
+              {
+                backgroundColor: '#B093C1', 
+                borderColor: venas === 'azul' ? '#ff7eb9' : 'transparent',
+                borderWidth: 2,
+                marginRight: -10,
+                zIndex: 2,
+              }
+            ]}/>
+            <View style={[
+              styles.colorCircle,
+              {
+                backgroundColor: '#4878A9', 
+                borderColor: venas === 'azul' ? '#ff7eb9' : 'transparent',
+                borderWidth: 2,
+                zIndex: 1,
+              }
+            ]}/>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.circleGroup}
+            onPress={() => handleSeleccion('ambos')}
+            activeOpacity={0.8}
+          >
+            {['#4878A9', '#5D99B1', '#759789'].map((color, i) => (
+              <View
+                key={i}
                 style={[
                   styles.colorCircle,
                   {
-                    backgroundColor: seleccionado ? coloresFuertes[key] : coloresPastel[key],
-                    borderColor: seleccionado ? '#ff7eb9' : 'transparent',
-                    borderWidth: seleccionado ? 3 : 2,
+                    backgroundColor: color,
+                    borderColor: venas === 'ambos' ? '#ff7eb9' : 'transparent',
+                    borderWidth: 2,
+                    marginLeft: i > 0 ? -20 : 0,
+                    zIndex: 3 - i,
                   },
                 ]}
-                onPress={() => handleSeleccion(key)}
-                activeOpacity={0.8}
               />
-            );
-          })}
+            ))}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.circleGroup}
+            onPress={() => handleSeleccion('verde')}
+            activeOpacity={0.8}
+          >
+            {['#759789', '#A59B80'].map((color, i) => (
+              <View
+                key={i}
+                style={[
+                  styles.colorCircle,
+                  {
+                    backgroundColor: color,
+                    borderColor: venas === 'verde' ? '#ff7eb9' : 'transparent',
+                    borderWidth: 2,
+                    marginLeft: i > 0 ? -20 : 0,
+                    zIndex: 2 - i,
+                  },
+                ]}
+              />
+            ))}
+          </TouchableOpacity>
         </View>
 
         {subtono && (
@@ -159,16 +194,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   grid: {
-    flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 40,
+  },
+  circleGroup: {
+    flexDirection: 'row',
+    marginVertical: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   colorCircle: {
     width: CIRCLE_SIZE,
     height: CIRCLE_SIZE,
     borderRadius: CIRCLE_SIZE / 2,
-    marginHorizontal: 15,
-    borderWidth: 2,
   },
   resultText: {
     fontSize: 18,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function ClothesScreen({ navigation }) {
-  const [showChatPrompt, setShowChatPrompt] = useState(true); // <-- aquí lo inicializamos en true
+  const [showChatPrompt, setShowChatPrompt] = useState(true); 
 
   return (
     <View style={styles.screen}>

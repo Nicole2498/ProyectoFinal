@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { UserContext } from '../../context/UserContext'; // ajusta ruta según tu estructura
 
 const coloresCabello = [
-  '#000000', '#4B3621', '#A97C50', '#D2B48C', '#FFF5B7',
-  '#D8A45C', '#A52A2A', '#FF6347', '#FFD700', '#F5A9B8',
-  '#8A2BE2', '#30D5C8', '#5F9EA0', '#FFFFFF', '#808080',
-  '#C0C0C0',
+  '#000000', '#4B3621', '#A97C50', '#D2B48C', 
+  '#D8A45C', '#FFF5B7', '#808080', '#C0C0C0',
+  '#A52A2A', '#FF6347', '#FFD700', '#37D617',
+  '#8A2BE2', '#DFB6ED', '#ED1E9B', '#F5A9B8', 
+  '#3214D6', '#1E99D6', '#30D5C8', '#5F9EA0'  
 ];
 
-export default function ColorCabelloScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
+export default function ColorCabelloScreen({ navigation }) {
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
   const [colorSeleccionado, setColorSeleccionado] = useState(datosUsuario.colorCabello || null);
 
   const handleSiguiente = () => {
     if (colorSeleccionado) {
-      navigation.navigate('TonoPiel', {
-        datosUsuario: {
-          ...datosUsuario,
-          colorCabello: colorSeleccionado,
-        },
-      });
+      setDatosUsuario({ ...datosUsuario, colorCabello: colorSeleccionado });
+      navigation.navigate('TonoPiel'); // sin params
     }
   };
 
@@ -86,9 +84,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    justifyContent: 'center', // Centra verticalmente
-    alignItems: 'center',     // Centra horizontalmente
-    paddingTop: 80,           // Para no solaparse con botón volver
+    justifyContent: 'center', 
+    alignItems: 'center',     
+    paddingTop: 80, 
     paddingBottom: 40,
   },
   title: {

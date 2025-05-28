@@ -1,39 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { UserContext } from '../../context/UserContext'; // Ajusta la ruta según tu estructura
 
-export default function SubtonoPielScreen({ navigation, route }) {
-  const datosUsuario = route.params?.datosUsuario || {};
+export default function SubtonoPielScreen({ navigation }) {
+  const { datosUsuario, setDatosUsuario } = useContext(UserContext);
   const [subtono, setSubtono] = useState(datosUsuario.subtonoPiel || null);
 
   const handleSiguiente = () => {
-    const datosActualizados = {
-      ...datosUsuario,
-      subtonoPiel: subtono,
-    };
-
-    if (subtono === 'No sé') {
-      navigation.navigate('ColorVenas', { datosUsuario: datosActualizados });
-    } else if (subtono) {
-      navigation.navigate('Contraste', { datosUsuario: datosActualizados });
+    if (subtono) {
+      setDatosUsuario({ ...datosUsuario, subtonoPiel: subtono });
+      
+      if (subtono === 'No sé') {
+        navigation.navigate('ColorVenas');
+      } else if (subtono) {
+        navigation.navigate('Contraste');
+      }
     }
   };
+
+  
 
   const opciones = ['Cálido', 'Frío', 'Neutro', 'No sé'];
 
   // Colores pastel (sin selección)
   const coloresPastel = {
-    Cálido: '#FFE5B4',   // pastel naranja
-    Frío: '#B3D9FF',     // pastel azul
-    Neutro: '#C8E6C9',   // pastel verde
-    'No sé': '#E0E0E0',  // gris claro
+    Cálido: '#FFE5B4',
+    Frío: '#B3D9FF',
+    Neutro: '#C8E6C9',
+    'No sé': '#E0E0E0',
   };
 
   // Colores fuertes (seleccionado)
   const coloresFuertes = {
-    Cálido: '#FFA500',   // naranja
-    Frío: '#4A90E2',     // azul
-    Neutro: '#4CAF50',   // verde
-    'No sé': '#999999',  // gris
+    Cálido: '#FFA500',
+    Frío: '#4A90E2',
+    Neutro: '#4CAF50',
+    'No sé': '#999999',
   };
 
   return (

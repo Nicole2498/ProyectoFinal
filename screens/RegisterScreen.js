@@ -21,7 +21,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={['#EBF7FA', '#F1F0FF', '#F6F3FF']}  // degradado con melón clarito
+      colors={['#EBF7FA', '#F1F0FF', '#F6F3FF']}  
       style={styles.container}
     >
       <View style={styles.appNameContainer}>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   appName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#BA3BEC',  // fucsia lindo
+    color: '#BA3BEC',  
     fontFamily: 'sans-serif',
   },
   formContainer: {
